@@ -47,7 +47,7 @@ void syslog_printheader(void);
 * @param varargs - variable amount of args
 * @return None
 */
-void syslog_trace(char* msg, ...);
+void syslog_trace(const char* msg, ...);
 
 
 

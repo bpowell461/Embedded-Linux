@@ -11,9 +11,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define DEF_TRUE    (1u == 1u)
-#define DEF_FALSE   (!DEF_TRUE)
-#define DEF_NULL_PTR (NULL)
+#define DEF_TRUE        (1u == 1u)
+#define DEF_FALSE       (!DEF_TRUE)
+#define DEF_NULL_PTR    (NULL)
 
 typedef uint8_t     BOOL_T;
 typedef uint8_t     UINT08;
@@ -27,6 +27,7 @@ typedef enum
 {
     SYS_SUCCESS,
     SYS_FAILURE,
+    SYS_IGNORE,
     SYS_COUNT
 }SysResult_e;
 
