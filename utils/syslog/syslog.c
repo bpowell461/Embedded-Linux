@@ -1,10 +1,17 @@
+/**
+ * @file syslog.c
+ * @author Brad Powell
+ * @date 16 Mar 2024
+ * @brief File containing implementation for system log functions.
+ *
+ */
+
 #include "syslog.h"
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdarg.h>
-#include "types.h"
 
 /* Macros Defines */
 #define USE_PRINTF 1
@@ -14,20 +21,22 @@
 #define DAY_SIZE       (2u)
 #define TIME_SIZE      (8u)
 
-/* Type Defines */
+/* Types */
 typedef int (*printFunc_t)(const char* restrict, ...);
 typedef int (*vprintFunc_t)(const char* restrict, __gnuc_va_list);
 
-static char    *assignment_name;
-static int      course_num;
-static int      assignment_num;
-
+/* Static Members */
+static char         *assignment_name;
+static int          course_num;
+static int          assignment_num;
 static BOOL_T       isInitialized = DEF_FALSE;
 static printFunc_t  _printFunc;
 static vprintFunc_t _vprintFunc;
 
 
-void syslog_init(char* assignment, const int courseNum, const int assignmentNum)
+/* Function Implementations */
+
+SysResult_e syslog_init(char* assignment, const int courseNum, const int assignmentNum)
 {
     if (!isInitialized)
     {
@@ -35,17 +44,21 @@ void syslog_init(char* assignment, const int courseNum, const int assignmentNum)
         course_num = courseNum;
         assignment_num = assignmentNum;
 
+        /* Hook for OS or HAL specific trace function */
 #if defined(USE_PRINTF) && USE_PRINTF
         _printFunc = &printf;
         _vprintFunc = &vprintf;
 #else
-        /* Implementation Specific */
         _printFunc = DEF_NULL_PTR;
         _vprintFunc = DEF_NULL_PTR;
 #endif
 
         isInitialized = DEF_TRUE;
+
+        return SYS_SUCCESS;
     }
+
+    return SYS_FAILURE;
 }
 
 void syslog_printheader(void)
@@ -63,7 +76,7 @@ void syslog_printheader(void)
         }
 
         /* Read the output a line at a time - output it. */
-        while (fgets(path, sizeof(path), fp) != NULL) {
+        while(fgets(path, sizeof(path), fp) != NULL) {
             SYSLOG_TRACE(path);
         }
 
@@ -72,10 +85,13 @@ void syslog_printheader(void)
     }
 
 }
+
 void syslog_trace(char *msg, ...)
 {
     if (isInitialized)
     {
+        /* Getting date and time in format MM DD HH:MM:SS*/
+
         time_t t = time(NULL);
         struct tm *local = localtime(&t);
     
@@ -93,10 +109,13 @@ void syslog_trace(char *msg, ...)
     
         snprintf(date, sizeof(month) + sizeof(day) + sizeof(ti) + NULL_TERM_SIZE, "%s %s %s", month, day, ti);
 
-        _printFunc("%s %s %s: [COURSE:%i][ASSIGNMENT:%i]", date, platform, assignment_name, course_num, assignment_num);
+        _printFunc("%s %s %s: [COURSE:%i][ASSIGNMENT:%i]: ", date, platform, assignment_name, course_num, assignment_num);
 
+        /* Retrieving varargs list for use with printf */
         va_list argp;
         va_start(argp, msg);
+
+        /* For now we are appending a newline character */
         if (msg[strlen(msg)] != '\n')
         {
             char formatted_msg[strlen(msg) + 1 + NULL_TERM_SIZE];

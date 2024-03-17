@@ -1,5 +1,15 @@
+/**
+ * @file syslog.h
+ * @author Brad Powell
+ * @date 16 Mar 2024
+ * @brief File containing definitions for system log functions.
+ *
+ */
+
 #ifndef SYS_LOG_H_
 #define SYS_LOG_H_
+
+#include "types.h"
 
 #if defined(BEAGLEBONE)
 #define PLATFORM "beaglebone"
@@ -15,10 +25,30 @@
 #define SYSLOG_TRACE(...)
 #endif
 
-void syslog_init(char *assignment, const int courseNum, const int assignmentNum);
+/** 
+* Initializes the System Log module.
+* @param assignment - assignment name
+* @param courseNum - course number
+* @param assignmentNum - assignment number
+* @return Result of operation.
+*/
+SysResult_e syslog_init(char *assignment, const int courseNum, const int assignmentNum);
 
+/**
+* Prints the System Log Header.
+* @param None
+* @return None
+*/
 void syslog_printheader(void);
 
+/**
+* Prints the System Log Header.
+* @param msg - string to be printed
+* @param varargs - variable amount of args
+* @return None
+*/
 void syslog_trace(char* msg, ...);
+
+
 
 #endif //SYS_LOG_H_

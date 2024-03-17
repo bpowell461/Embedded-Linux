@@ -1,3 +1,10 @@
+/**
+ * @file types.h
+ * @author Brad Powell
+ * @date 16 Mar 2024
+ * @brief File containing common types and macros.
+ *
+ */
 #ifndef TYPES_H_
 #define TYPES_H_
 
@@ -15,5 +22,12 @@ typedef uint32_t    UINT32;
 typedef int8_t      INT08;
 typedef int16_t     INT16;
 typedef int32_t     INT32;
+
+typedef enum
+{
+    SYS_SUCCESS,
+    SYS_FAILURE,
+    SYS_COUNT
+}SysResult_e;
 
 #endif // !TYPES_H_
