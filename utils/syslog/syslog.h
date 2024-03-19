@@ -32,14 +32,14 @@
 * @param assignmentNum - assignment number
 * @return Result of operation.
 */
-SysResult_e syslog_init(char *assignment, const int courseNum, const int assignmentNum);
+sys_result_e syslog_init(char *assignment, const int courseNum, const int assignmentNum);
 
 /**
 * Closes the System Log module.
 * @param  None
 * @return Result of operation.
 */
-SysResult_e syslog_close(void);
+sys_result_e syslog_close(void);
 
 /**
 * Prints the System Log Header.

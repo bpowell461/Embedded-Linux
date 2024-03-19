@@ -29,6 +29,6 @@ typedef enum
     SYS_FAILURE,
     SYS_IGNORE,
     SYS_COUNT
-}SysResult_e;
+}sys_result_e;
 
 #endif // !TYPES_H_

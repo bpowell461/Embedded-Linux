@@ -44,7 +44,7 @@ static int          trace_fd;
 
 /* Function Implementations */
 
-SysResult_e syslog_init(char* assignment, const int courseNum, const int assignmentNum)
+sys_result_e syslog_init(char* assignment, const int courseNum, const int assignmentNum)
 {
     if (!isInitialized)
     {
@@ -77,7 +77,7 @@ SysResult_e syslog_init(char* assignment, const int courseNum, const int assignm
     return SYS_IGNORE;
 }
 
-SysResult_e syslog_close(void)
+sys_result_e syslog_close(void)
 {
     if (isInitialized)
     {
