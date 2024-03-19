@@ -49,7 +49,6 @@ int main(int argc, char* argv[])
 
     syslog_printheader();
 
-    int rc;
     int i = 0;
 
     for (i = 0; i < NUM_THREADS; i++)
@@ -60,6 +59,8 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < NUM_THREADS; i++)
         pthread_join(threads[i], DEF_NULL_PTR);
+
+    (void) syslog_close();
 
     return SYS_SUCCESS;
 }

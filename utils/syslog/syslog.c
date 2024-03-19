@@ -77,6 +77,22 @@ SysResult_e syslog_init(char* assignment, const int courseNum, const int assignm
     return SYS_IGNORE;
 }
 
+SysResult_e syslog_close(void)
+{
+    if (isInitialized)
+    {
+        close(trace_fd);
+        _printFunc = DEF_NULL_PTR;
+        _vprintFunc = DEF_NULL_PTR;
+
+        isInitialized = DEF_FALSE;
+
+        return SYS_SUCCESS;
+    }
+
+    return SYS_IGNORE;
+}
+
 void syslog_printheader(void)
 {
     if (isInitialized)
