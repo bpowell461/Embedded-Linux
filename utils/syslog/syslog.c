@@ -55,7 +55,7 @@ sys_result_e syslog_init(char* assignment, const int courseNum, const int assign
         char buf[SYSLOG_FILE_NAME_SIZE];
         snprintf(buf, sizeof(buf), "syslog-prog-%i.%i.txt", courseNum, assignmentNum);
 
-        trace_fd = open(buf, O_WRONLY | O_CREAT);
+        trace_fd = open(buf, O_WRONLY | O_CREAT | O_TRUNC);
         if (trace_fd < 0)
             return SYS_FAILURE;
 
@@ -141,8 +141,8 @@ void syslog_trace(const char *msg, ...)
     
         snprintf(date, sizeof(month) + sizeof(day) + sizeof(ti) + NULL_TERM_SIZE, "%s %s %s", month, day, ti);
 
-        char fmt[] = "%s %s %s: [COURSE:%i][ASSIGNMENT:%i]: ";
-        _printFunc(fmt, date, platform, assignment_name, course_num, assignment_num);
+        char fmt[] = "%s %s [COURSE:%i][ASSIGNMENT:%i]: ";
+        _printFunc(fmt, date, platform, course_num, assignment_num);
 
         /* Retrieving varargs list for use with printf */
         va_list argp;
